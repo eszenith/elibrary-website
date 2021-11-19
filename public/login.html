@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>prject</title>
+    <link rel="stylesheet" href="css/indexStyles.css">
+    <link rel="stylesheet" href="css/loginStyles.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="login-wrapper">
+            <div class="login-card">
+                <h2><span>Login</span></h2>
+                <form class="login-form" action="http://127.0.0.1:3000/login" method="POST">
+                    <p>
+                        <label for="name">Username : </label>
+                        <input type="text" id="name" name="username">
+                    </p>
+                    <p>
+                        <label for="pass">Password : </label>
+                        <input type="password" id="pass" name="userpass">
+                    </p>
+                    <p class="submitBtn">
+                        <input type="submit" value="Submit">
+                    </p>
+                </form>
+            </div>
+        </div>
+        <script src="javascript/navbar.js"></script>
+        <script src='javascript/login.js'></script>
+</body>
+
+</html>

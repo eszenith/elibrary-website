@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>prject</title>
+    <link rel="stylesheet" href="css/indexStyles.css">
+    <link rel="stylesheet" href="css/signupStyles.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="signup-wrapper">
+            <div class="account-mes-cont">
+
+            </div>
+            <div class="signup-card">
+                <h1><span>Sign up</span></h1>
+                <form id="uform" class="signup-form" action="http://127.0.0.1:3000/signup" method="POST">
+                    <p>
+                        <label for="name">Username : </label>
+                        <input type="text" id="name" name="username">
+                    </p>
+                    <p>
+                        <label for="password">Password : </label>
+                        <input type="password" id="pass" name="upass">
+                    </p>
+                    <p>
+                        <label for="confpass">Confirm password : </label>
+                        <input type="password" id="confpass" name="userConfpass">
+                    </p>
+                    <p>
+                        <label for="age">Age : </label>
+                        <input type="number" id="age" name="uage">
+                    </p>
+                    <p>
+                        <label for="email">Email : </label>
+                        <input type="email" id="email" name="umail">
+                    </p>
+                    <p class="submitBtn">
+                        <input type="submit" value="Submit">
+                    </p>
+                </form>
+                <div class="form-mes-cont">
+
+                </div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src='javascript/signup.js'></script>
+        <script src="javascript/navbar.js"></script>
+</body>
+
+</html>

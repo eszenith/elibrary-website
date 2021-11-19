@@ -1,0 +1,57 @@
+.books-cont {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+body {
+    background-color: white;
+    overflow-x: hidden;
+}
+
+.udata {
+    font-family: playfair-display;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    padding:1px 0px;
+    background-color: black;
+    color: white;
+    padding-left: 300px;
+    position: relative;
+    right: 180px;
+}
+
+.udata h2 {
+    font-size: 30px;
+}
+
+.book {
+    text-align: center;
+    padding: 0.5em;
+    margin:1em;
+    flex:1;
+}
+
+.author {
+    margin-top: 25px;
+    font-size: 20px;
+}
+.book-img {
+    height: 18em;
+    width: 14em;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+.nobook-cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 220px);
+    width:100%;
+}
+
+.srchText {
+    font-family: merriweather;
+    font-size: 26px;
+    color: rgb(141, 142, 145);
+}

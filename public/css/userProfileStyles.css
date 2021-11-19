@@ -1,0 +1,18 @@
+body {
+    background-color: white;
+    overflow-x: hidden;
+}
+
+.udata {
+    font-family: playfair-display;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    padding:1px 0px;
+    background-color: black;
+    color: white;
+    padding-left: 300px;
+    position: relative;
+    right: 180px;
+}
+

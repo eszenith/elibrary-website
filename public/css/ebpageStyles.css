@@ -1,0 +1,115 @@
+.ebookpage-content {
+    padding: 40px;
+    margin-top: 50px;
+    font-family: merriweather;
+}
+
+.similar {
+    display: flex;    
+}
+
+.similar-section {
+    margin-top: 70px;
+    margin-left: 50px;
+}
+
+.similar-section > p {
+    font-size: 19px;
+}
+.simbook-img {
+    margin: 1em;
+    height: 9em;
+    width: 6em;
+    object-fit: contain;
+}
+
+.book-info {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+.book-img-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.book-info-col>h2,.book-info-col>h4 {
+    font-family: playfair-display;
+}
+h2 {
+    font-size: 30px;
+}
+
+h4 {
+    font-size: 18px;
+}
+.book-info-col {
+    padding-left: 25px;
+    
+}
+
+.Btn {
+    font-family: merriweather;
+    display: block;
+    margin:0;
+    font-size: 20px;
+    height: 35px;
+    width: 60%;
+    margin-top: 40px;
+    border:0px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+#issueBtn:hover {
+    background-color: rgb(28, 129, 28);
+}
+
+#returnBtn:hover {
+    background-color: rgb(184, 71, 51);
+}
+
+#issueBtn {
+    color:white;
+    background-color:rgb(33, 155, 33);
+}
+
+#returnBtn {
+    color:white;
+    background-color: rgb(209, 80, 58);
+}
+.book-img {
+    height: 18em;
+    width: 14em;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+.starBtn {
+    border: none;
+    padding: 0px;
+    background-color: white;
+}
+
+.star-img {
+    height: 30px;
+    width: 30px;
+    object-fit: contain;
+}
+
+.stars {
+    display: flex;
+}
+#rate-mes {
+    margin-right: 10px;
+    padding: 5px;
+    background-color: black;
+    font-family: merriweather;
+    color: white;
+}
+#ratings {
+    margin-left: 7px;
+    padding: 7px;
+    font-family: merriweather;
+}

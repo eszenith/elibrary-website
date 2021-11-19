@@ -1,0 +1,81 @@
+input[type=text], input[type=password],input[type=number],input[type=email] {
+    width: 100%;
+    padding: 3px;
+    margin: 8px 0px;
+    font-size: 15px;
+}
+
+.signup-form {
+    font-size: 16px;
+    font-family: merriweather;
+}
+
+.signup-card > h1 {
+    font-family: playfair-display;
+}
+
+.signup-form > p {
+    margin:20px 0px;
+}
+
+.signup-form > p:nth-of-type(1) {
+    margin-top: 60px;
+}
+
+.submitBtn {
+    text-align: center;
+}
+
+input[type=submit]{
+    margin-top: 20px;
+    font-size: 15px;
+    padding: 10px;
+    width:120px;
+    border-radius: 40px;
+    background-color:white;
+    color:#00203FFF;
+}
+
+input[type=submit]:hover {
+    background-color: #00203FFF;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    color:white;
+}
+.signup-wrapper {
+    border:1px solid black;
+    margin: 25px 60px;
+    padding: 40px 80px;
+}
+
+.form-mes {
+    color:white;
+    font-weight: bold;
+}
+
+.form-mes-cont {
+    font-family: playfair-display;
+    display: none;
+    border-radius: 5px;
+    background-color: rgb(221, 78, 53);
+    padding: 2px 10px;
+    padding-left: 40px;
+}
+
+.account-mes-pos {
+    color:white;
+    background-color:rgb(45, 212, 45);
+}
+
+.account-mes-neg {
+    color:white;
+    background-color: rgb(221, 78, 53);
+}
+
+.account-mes-cont {
+    font-family: playfair-display;
+    display: none;
+    border-radius: 4px;
+    padding: 4px;
+    padding-left: 40px;
+    font-weight: bold;
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>prject</title>
+    <link rel="stylesheet" href="css/indexStyles.css">
+    <link rel="stylesheet" href="css/ebpageStyles.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="ebookpage-content">
+            <section class="book-info">
+                <div class="book-img-col">
+                    <img src="images/bk1.png" class="book-img">
+                    <button type="button" class="Btn" id="issueBtn">ISSUE</button>
+                </div>
+                <div class="book-info-col">
+                    <h2 id="bookTitle">Book Title</h2>
+                    <h3 id="bookAuthor">By author</h3>
+                    <div class="stars">
+                        <button type="button" class="starBtn star1"><img class="star-img" src="images/star.png"></button>
+                        <button type="button" class="starBtn star2"><img class="star-img" src="images/star.png"></button>
+                        <button type="button" class="starBtn star3"><img class="star-img" src="images/star.png"></button>
+                        <button type="button" class="starBtn star4"><img class="star-img" src="images/star.png"></button>
+                        <button type="button" class="starBtn star5"><img class="star-img" src="images/star.png"></button>
+                        <span id="ratings"></span>
+                    </div>
+                    <p id="bookDesc">description of the book</p>
+                </div>
+            </section>
+            <section class="similar-section">
+                <p>Similar books</p>
+                <div class="similar">
+                    <a href="bookpage.html"><img class="simbook-img" src="images/bk4.png"></a>
+                    <a href="bookpage.html"><img class="simbook-img" src="images/bk4.png"></a>
+                    <a href="bookpage.html"><img class="simbook-img" src="images/bk4.png"></a>
+                    <a href="bookpage.html"><img class="simbook-img" src="images/bk4.png"></a>
+                </div>
+            </section>
+        </div>
+        <footer class="site-footer">
+            <p>IT project - online library</p>
+        </footer>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="javascript/navbar.js"></script>
+    <script src="javascript/indvidualbookpage.js"></script>
+    <script src="javascript/getbookstars.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+.about-head {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.details {
+    text-align: left;
+}
+.about-head h1 {
+    font-size: 60px;
+    font-family: playfair-display;
+}
+.about-content {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 40px;
+    width: 90%;
+}
+.about-wrapper {
+    font-family: merriweather;
+    margin-bottom: 400px;
+}
+
+.by {
+    display: inline-block;
+    margin-top: 70px;
+}

@@ -1,0 +1,178 @@
+@font-face {
+  font-family: playfair-display;
+  src: url(../font/PlayfairDisplay-Regular.ttf);
+}
+
+@font-face {
+  font-family: merriweather;
+  src: url(../font/Merriweather-Regular.ttf);
+}
+
+body {
+  padding: 0px;
+  margin: 0px;
+  overflow-x: hidden;
+}
+
+.navbar  {
+  background-color:white;
+  height: 3.5em;
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+  border-bottom: 1.2px solid black;
+  font-weight: bold;
+  font-family: playfair-display;
+}
+
+.navbar ul {
+    list-style-type: none;
+    padding: 0;
+    overflow: hidden;
+    height: 50px;
+}
+
+.nav-left  {
+  margin-left: 60px;
+}
+.nav-right {
+    margin-left: auto;
+    margin-right: 40px;
+    
+}
+.navbar li {
+      float: left;
+}
+  
+.navbar li a {
+    display: block;
+    color:black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar li a:hover {
+  color:aquamarine
+}
+.home-content {
+  display: flex;
+  flex-direction: column;
+
+}
+.home-content section {
+  height: 600px;
+  width: 100%;
+  padding:1px;
+  display: flex;
+}
+.home-content .section-top {
+  height: 530px;
+}
+
+.section-top {
+  background-color: white;
+}
+
+.top-cont {
+  height: 100%;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow-x: hidden;
+}
+
+#top-left-cont {
+  width: 500px;
+  margin-left: 120px;
+}
+
+#front-text-cont {
+  margin-bottom: 30px;
+}
+
+#front-bottom-p {
+  margin-top: 38px;
+  font-family: merriweather;
+  font-size: 19.5px;
+}
+
+.front-text {
+  font-size: 7em;
+  margin: 0px;
+  line-height: 0.95;
+}
+
+.img-cont-shelf {
+  height: 330px;
+  position: relative;
+  left:125px;
+}
+
+.shelves {
+  object-fit: contain;
+  height: 310px;
+}
+#mid-text {
+  padding-left: 150px;
+  margin-top: 120px;
+  width:500px;
+}
+
+#mid-text > h2 {
+  font-family: playfair-display;
+  font-size: 40px;
+  display: inline-block;
+}
+
+#mid-text  > button {
+  margin-top: 80px;
+  font-size: 18px;
+  padding: 15px;
+  border-radius: 40px;
+  background-color:white;
+  color:#00203FFF;
+  font-weight: bold;
+}
+
+.section-mid {
+  background-color:#101820FF;
+  color:white;
+  font-family: merriweather;
+  font-size: 19.5px;
+}
+
+.section-last {
+  background-color: white;
+  color:#101820FF;
+  font-family: merriweather;
+  font-size: 19.5px;
+}
+.section-bot {
+  background-color:cornflowerblue;
+}
+
+.site-footer {
+  background-color:#00203FFF;
+  color:white;
+  height: 100px;
+  width: 100%;
+  padding: 20px;
+  padding-top: 40px;
+  padding-left: 100px;
+  font-family: merriweather;
+  font-size: 13px;
+}
+button > a{
+  text-decoration: none;
+  color: black;
+}
+.cards {
+  margin-right: 20px;
+  margin-left: 20px;
+  border-radius: 5px;
+  height: 350px;
+  width: 250px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
