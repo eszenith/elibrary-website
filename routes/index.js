@@ -20,10 +20,10 @@ router.get('/getBooks', function (req, res, next) {
 });
 
 router.get('/getUserBooks/:userid', function (req, res, next) {
-    var qry = `select * from issue where uno = ${req.params.userid}`;
+    var qry = `select * from issue where uno = ?`;
     //console.log("in user books" + qry);
     var qry2 = `select bno,bname from books where `;
-    connection.query(qry, function (err, result) {
+    connection.query(qry, [req.params.userid], function (err, result) {
         if (result.length !== 0) {
             let i = 0;
             for (i = 0; i < result.length - 1; i++) {
@@ -48,8 +48,8 @@ router.get('/getUserBooks/:userid', function (req, res, next) {
 });
 
 router.post('/signup', function (req, res, next) {
-    var qry = `insert into users(uname,upass,uage,umail) values('${req.body.username}','${req.body.upass}',${req.body.uage},'${req.body.umail}')`;
-    connection.query(qry, function (err, result) {
+    var qry = `insert into users(uname,upass,uage,umail) values(?,?,?,?)`;
+    connection.query(qry, [req.body.username, req.body.upass, req.body.uage, req.body.umail], function (err, result) {
         if (err) {
             res.cookie('register', 'no');
             res.redirect('/signup.html')
@@ -61,13 +61,18 @@ router.post('/signup', function (req, res, next) {
 });
 
 router.post('/login', function (req, res, next) {
-    var qry = `select * from users where uname='${req.body.username}'`;
+    //var qry = `select * from users where uname='${req.body.username}'`;
+    var qry = `select * from users where uname=?`;
     var userObj;
-    connection.query(qry, function (err, result) {
+    console.log(qry);
+    var sqlQry = connection.query(qry, [req.body.username], function (err, result) {
         if (err) throw err;
-        //console.log(result);
+        console.log(result);
         userObj = result[0];
+        console.log(sqlQry.sql);
         //console.log(userObj);
+        if (!userObj)
+            res.redirect('/index.html');
         if (userObj['upass'] === req.body.userpass) {
             res.cookie("login", "yes")
             res.cookie("uno", `${userObj['uno']}`);
@@ -80,8 +85,8 @@ router.post('/login', function (req, res, next) {
 });
 
 router.get('/getUserData/:userid', function (req, res, next) {
-    var qry = `select * from users where uno=${req.params.userid}`;
-    connection.query(qry, function (err, result) {
+    var qry = `select * from users where uno=?`;
+    connection.query(qry,[req.params.userid], function (err, result) {
         res.json(JSON.stringify(result[0]));
     });
 });
@@ -93,26 +98,26 @@ router.get("/logout", function (req, res, next) {
 })
 
 router.get("/getBookData/:bookid", function (req, res, next) {
-    var qry = `select * from books where bno=${req.params.bookid}`;
+    var qry = `select * from books where bno=?`;
     console.log("getting book , " + qry);
-    connection.query(qry, function (err, result) {
+    connection.query(qry,[req.params.bookid], function (err, result) {
         console.log(result);
         res.json(JSON.stringify(result[0]));
     });
 });
 
 router.get("/getBookStars/:bookid", function (req, res, next) {
-    var qry = `select stars,noOfUser from books where bno=${req.params.bookid}`;
+    var qry = `select stars,noOfUser from books where bno=?`;
     console.log(qry);
-    connection.query(qry, function (err, result) {
+    connection.query(qry,[req.params.bookid],  function (err, result) {
         res.json(JSON.stringify(result[0]));
     });
 });
 
 router.get("/getSearchData/:sQry", function (req, res, next) {
-    var qry = `select bno,bname from books where bname like '%${req.params.sQry}%'`;
-    //console.log(qry);
-    connection.query(qry, function (err, result) {
+    var qry = `select bno,bname from books where bname like ?`;
+    console.log(qry);
+    connection.query(qry,['%'+req.params.sQry+'%'], function (err, result) {
         if (err) throw err;
         //console.log(result);
         res.json(JSON.stringify(result));
@@ -133,9 +138,9 @@ router.get("/userbookpage/:bookid", function (req, res, next) {
 
 router.post("/issueBook/:userid/:bookid", function (req, res, next) {
     //console.log("in issue books" + req.params.userid + " book id " + req.params.bookid);
-    var qry = `INSERT INTO issue values(${req.params.userid}, ${req.params.bookid})`;
+    var qry = `INSERT INTO issue values(?,?)`;
     //console.log(qry);
-    connection.query(qry, function (err, result) {
+    connection.query(qry,[req.params.userid,req.params.bookid], function (err, result) {
         if (err) throw err;
         res.end();
     });
@@ -143,18 +148,18 @@ router.post("/issueBook/:userid/:bookid", function (req, res, next) {
 
 router.post("/returnBook/:userid/:bookid", function (req, res, next) {
     //console.log("in return books");
-    var qry = `delete from issue where uno=${req.params.userid} and bno=${req.params.bookid}`;
+    var qry = `delete from issue where uno=? and bno=?`;
     //console.log(qry);
-    connection.query(qry, function (err, result) {
+    connection.query(qry,[req.params.userid,req.params.bookid], function (err, result) {
         if (err) throw err;
         res.end();
     });
 });
 
 router.post("/checkIssue/:userid/:bookid", function (req, res, next) {
-    var qry = `select * from issue where uno=${req.params.userid} and bno=${req.params.bookid}`;
+    var qry = `select * from issue where uno=? and bno=?`;
     //console.log(qry);
-    connection.query(qry, function (err, result) {
+    connection.query(qry,[req.params.userid,req.params.bookid] ,function (err, result) {
         if (err) throw err;
         //console.log(result);
         //console.log(result.length);
@@ -169,9 +174,9 @@ router.post("/checkIssue/:userid/:bookid", function (req, res, next) {
 })
 
 router.get("/getUserStars/:userid/:bookid", function (req, res, next) {
-    var qry = `select * from stars where uno = ${req.params.userid} and bno = ${req.params.bookid}`;
+    var qry = `select * from stars where uno = ? and bno = ?`;
     console.log(qry);
-    connection.query(qry, function (err, result) {
+    connection.query(qry,[req.params.userid,req.params.bookid] , function (err, result) {
         if (result.length !== 0) {
             res.json(JSON.stringify({ starsno: result[0].stars }));
         }
@@ -183,12 +188,12 @@ router.get("/getUserStars/:userid/:bookid", function (req, res, next) {
 
 
 function updateBookStarAvg(bno, starsno) {
-    var qry = `select stars, noOfUser from books where bno=${bno}`;
-    connection.query(qry, function (err, result) {
+    var qry = `select stars, noOfUser from books where bno=?`;
+    connection.query(qry,[bno], function (err, result) {
         if (err) throw err;
         console.log(result)
         var newRating = Math.ceil(((Number(result[0].stars) * Number(result[0].noOfUser)) + Number(starsno)) / (result[0].noOfUser + 1));
-        
+
         console.log("*****the new rating is : " + newRating);
         var qry2 = `update books set stars = ${newRating}, noOfUser=${result[0].noOfUser + 1} where bno = ${bno}`;
         connection.query(qry2, function (err, result) {
@@ -198,21 +203,21 @@ function updateBookStarAvg(bno, starsno) {
 }
 
 router.post("/setStars", function (req, res, next) {
-    var qry = `select * from stars where uno = ${req.body.uno} and bno = ${req.body.bno}`;
+    var qry = `select * from stars where uno = ? and bno = ?`;
     console.log(qry);
-    connection.query(qry, function (err, result) {
+    connection.query(qry, [req.body.uno, req.body.bno], function (err, result) {
         console.log(result);
         if (result.length !== 0) {
-            var qry2 = `update stars set stars=${req.body.starsno} where uno = ${req.body.uno} and bno = ${req.body.bno}`;
+            var qry2 = `update stars set stars=? where uno = ? and bno = ?`;
             console.log(qry2);
-            connection.query(qry2, function (err, result) {
+            connection.query(qry2,[req.body.starsno,req.body.uno,req.body.bno], function (err, result) {
                 if (err) throw err;
             });
         }
         else {
-            var qry2 = `insert into stars values(${req.body.uno}, ${req.body.bno}, ${req.body.starsno})`;
+            var qry2 = `insert into stars values(?, ?, ?)`;
             console.log(qry2);
-            connection.query(qry2, function (err, result) {
+            connection.query(qry2,[req.body.uno,req.body.bno,req.body.starsno], function (err, result) {
                 if (err) throw err;
                 updateBookStarAvg(req.body.bno, req.body.starsno);
             });

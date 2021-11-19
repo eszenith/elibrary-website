@@ -29,7 +29,6 @@ $(function () {
         }
     }
 
-    console.log("correct script");
     $('.searchBtn').on('click', function () {
         var xhr2 = new XMLHttpRequest();
         console.log("abcd");
