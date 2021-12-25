@@ -1,6 +1,12 @@
 var express = require('express');
 const con = require('../dbfunctions');
 var connection = require('../dbfunctions');
+var jwt = require('jsonwebtoken');
+const { json } = require('express');
+
+function genAccessToken(data) {
+    return jwt.sign(data, 'secret', {expiresIn : '2000s'});
+}
 
 var router = express.Router();
 
@@ -65,22 +71,28 @@ router.post('/login', function (req, res, next) {
     var qry = `select * from users where uname=?`;
     var userObj;
     console.log(qry);
+    console.log(req.body);
     var sqlQry = connection.query(qry, [req.body.username], function (err, result) {
         if (err) throw err;
         console.log(result);
         userObj = result[0];
         console.log(sqlQry.sql);
-        //console.log(userObj);
+        console.log(userObj);
         if (!userObj)
             res.redirect('/index.html');
         if (userObj['upass'] === req.body.userpass) {
             res.cookie("login", "yes")
             res.cookie("uno", `${userObj['uno']}`);
+            var tkn = genAccessToken({'uno' : userObj['uno']});
+            console.log(tkn);
+            res.json(tkn);
+            
         }
         else {
             res.cookie("login", "no")
+            res.redirect("/");
         }
-        res.redirect("/");
+        
     });
 });
 
