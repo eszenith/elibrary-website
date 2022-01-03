@@ -38,7 +38,7 @@ function checkIssue() {
 
     $.ajax({
         type:'POST',
-        url:`http://127.0.0.1:3000/checkIssue/${getCookie('bno')}`,
+        url:`http://127.0.0.1:3000/bookUserAct/checkIssue/${getCookie('bno')}`,
         beforeSend: setHeaderAuth,
         success: function (issueData) {
             var isData = JSON.parse(issueData);
@@ -82,7 +82,7 @@ function onIssue() {
 
     $.ajax({
         type:'POST',
-        url:`http://127.0.0.1:3000/issueBook/${getCookie('bno')}`,
+        url:`http://127.0.0.1:3000/bookUserAct/issueBook/${getCookie('bno')}`,
         beforeSend: setHeaderAuth,
         success: function () {
             //console.log("post returned"+checkIssue());
@@ -99,7 +99,7 @@ function onReturn() {
 
     $.ajax({
         type:'POST',
-        url:`http://127.0.0.1:3000/returnBook/${getCookie('bno')}`,
+        url:`http://127.0.0.1:3000/bookUserAct/returnBook/${getCookie('bno')}`,
         beforeSend: setHeaderAuth,
         success: function () {
             //console.log("post returned"+checkIssue());
