@@ -1,8 +1,8 @@
 var express = require('express');
-const con = require('../dbfunctions');
+/*const con = require('../dbfunctions');*/
 var connection = require('../dbfunctions');
 var jwt = require('jsonwebtoken');
-const { json } = require('express');
+//const { json } = require('express');
 
 function genAccessToken(data) {
     return jwt.sign(data, 'secret', {expiresIn : '2000s'});
@@ -12,9 +12,31 @@ var router = express.Router();
 
 //this files contains all the route handlers on the website
 
+function jwtAuthenticate (req,res,next) {
+    const reqHeaders = req.headers['authorization'];
+    console.log(reqHeaders);
+    const token = reqHeaders && reqHeaders.split(' ')[1];
+    console.log("in authenticate middle ware")
+    if(token === null) return res.sendStatus(401);
+
+    jwt.verify(token,'secret', (err, data)=> {
+        console.log(data);
+        if(err) {
+            console.log(err);
+            console.log("sending status");
+            //why do we need to return sendStatus 
+            return res.sendStatus(403);
+        }
+        req.tokenData = data;
+        console.log("ok");
+        next();
+    })
+}
+
 router.get('/', function (req, res, next) {
     res.redirect("/index.html");
 });
+
 
 router.get('/getBooks', function (req, res, next) {
     var qry = `select bno,bname from books`;
@@ -25,11 +47,12 @@ router.get('/getBooks', function (req, res, next) {
     });
 });
 
-router.get('/getUserBooks/:userid', function (req, res, next) {
+//auth
+router.get('/getUserBooks/', jwtAuthenticate , function (req, res, next) {
     var qry = `select * from issue where uno = ?`;
     //console.log("in user books" + qry);
     var qry2 = `select bno,bname from books where `;
-    connection.query(qry, [req.params.userid], function (err, result) {
+    connection.query(qry, [req.tokenData.uno], function (err, result) {
         if (result.length !== 0) {
             let i = 0;
             for (i = 0; i < result.length - 1; i++) {
@@ -66,12 +89,15 @@ router.post('/signup', function (req, res, next) {
     });
 });
 
+
 router.post('/login', function (req, res, next) {
     //var qry = `select * from users where uname='${req.body.username}'`;
     var qry = `select * from users where uname=?`;
     var userObj;
     console.log(qry);
+    console.log("request : ");
     console.log(req.body);
+    console.log(req.headers);
     var sqlQry = connection.query(qry, [req.body.username], function (err, result) {
         if (err) throw err;
         console.log(result);
@@ -82,30 +108,32 @@ router.post('/login', function (req, res, next) {
             res.redirect('/index.html');
         if (userObj['upass'] === req.body.userpass) {
             res.cookie("login", "yes")
-            res.cookie("uno", `${userObj['uno']}`);
+            //res.cookie("uno", `${userObj['uno']}`);
             var tkn = genAccessToken({'uno' : userObj['uno']});
             console.log(tkn);
             res.json(tkn);
             
         }
         else {
-            res.cookie("login", "no")
             res.redirect("/");
         }
         
     });
 });
 
-router.get('/getUserData/:userid', function (req, res, next) {
+//auth
+router.get('/getUserData', jwtAuthenticate ,function (req, res, next) {
+    console.log(req.tokenData.uno);
     var qry = `select * from users where uno=?`;
-    connection.query(qry,[req.params.userid], function (err, result) {
+    connection.query(qry,[req.tokenData.uno], function (err, result) {
         res.json(JSON.stringify(result[0]));
     });
 });
 
 router.get("/logout", function (req, res, next) {
     res.clearCookie("login");
-    res.cookie("uno");
+    res.clearCookie('token');
+    /*res.cookie("uno");*/
     res.redirect("/");
 })
 
@@ -126,6 +154,7 @@ router.get("/getBookStars/:bookid", function (req, res, next) {
     });
 });
 
+
 router.get("/getSearchData/:sQry", function (req, res, next) {
     var qry = `select bno,bname from books where bname like ?`;
     console.log(qry);
@@ -142,36 +171,40 @@ router.get("/ebookpage/:bookid", function (req, res, next) {
     res.redirect("/ebookpage.html");
 });
 
+
 router.get("/userbookpage/:bookid", function (req, res, next) {
     res.clearCookie("bno");
     res.cookie("bno", req.params.bookid);
     res.redirect("/userbookpage.html");
 });
 
-router.post("/issueBook/:userid/:bookid", function (req, res, next) {
+//auth
+router.post("/issueBook/:bookid", jwtAuthenticate ,function (req, res, next) {
     //console.log("in issue books" + req.params.userid + " book id " + req.params.bookid);
     var qry = `INSERT INTO issue values(?,?)`;
     //console.log(qry);
-    connection.query(qry,[req.params.userid,req.params.bookid], function (err, result) {
+    connection.query(qry,[req.tokenData.uno, req.params.bookid], function (err, result) {
         if (err) throw err;
         res.end();
     });
 });
 
-router.post("/returnBook/:userid/:bookid", function (req, res, next) {
+//auth
+router.post("/returnBook/:bookid", jwtAuthenticate ,function (req, res, next) {
     //console.log("in return books");
     var qry = `delete from issue where uno=? and bno=?`;
     //console.log(qry);
-    connection.query(qry,[req.params.userid,req.params.bookid], function (err, result) {
+    connection.query(qry,[req.tokenData.uno,req.params.bookid], function (err, result) {
         if (err) throw err;
         res.end();
     });
 });
 
-router.post("/checkIssue/:userid/:bookid", function (req, res, next) {
+//auth
+router.post("/checkIssue/:bookid",jwtAuthenticate , function (req, res, next) {
     var qry = `select * from issue where uno=? and bno=?`;
     //console.log(qry);
-    connection.query(qry,[req.params.userid,req.params.bookid] ,function (err, result) {
+    connection.query(qry,[req.tokenData.uno ,req.params.bookid] ,function (err, result) {
         if (err) throw err;
         //console.log(result);
         //console.log(result.length);
@@ -185,10 +218,11 @@ router.post("/checkIssue/:userid/:bookid", function (req, res, next) {
     });
 })
 
-router.get("/getUserStars/:userid/:bookid", function (req, res, next) {
+//auth
+router.get("/getUserStars/:bookid", jwtAuthenticate ,function (req, res, next) {
     var qry = `select * from stars where uno = ? and bno = ?`;
     console.log(qry);
-    connection.query(qry,[req.params.userid,req.params.bookid] , function (err, result) {
+    connection.query(qry,[req.tokenData.uno,req.params.bookid] , function (err, result) {
         if (result.length !== 0) {
             res.json(JSON.stringify({ starsno: result[0].stars }));
         }
@@ -214,22 +248,23 @@ function updateBookStarAvg(bno, starsno) {
     });
 }
 
-router.post("/setStars", function (req, res, next) {
+//auth
+router.post("/setStars", jwtAuthenticate ,function (req, res, next) {
     var qry = `select * from stars where uno = ? and bno = ?`;
     console.log(qry);
-    connection.query(qry, [req.body.uno, req.body.bno], function (err, result) {
+    connection.query(qry, [req.tokenData.uno , req.body.bno], function (err, result) {
         console.log(result);
         if (result.length !== 0) {
             var qry2 = `update stars set stars=? where uno = ? and bno = ?`;
             console.log(qry2);
-            connection.query(qry2,[req.body.starsno,req.body.uno,req.body.bno], function (err, result) {
+            connection.query(qry2,[req.body.starsno,req.tokenData.uno,req.body.bno], function (err, result) {
                 if (err) throw err;
             });
         }
         else {
             var qry2 = `insert into stars values(?, ?, ?)`;
             console.log(qry2);
-            connection.query(qry2,[req.body.uno,req.body.bno,req.body.starsno], function (err, result) {
+            connection.query(qry2,[req.tokenData.uno,req.body.bno,req.body.starsno], function (err, result) {
                 if (err) throw err;
                 updateBookStarAvg(req.body.bno, req.body.starsno);
             });

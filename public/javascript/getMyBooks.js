@@ -47,7 +47,8 @@ $(function () {
     }
 
     var xhrUserBook = new XMLHttpRequest();
-    xhrUserBook.open('GET', `/getUserBooks/${getCookie('uno')}`);
+    xhrUserBook.open('GET', `/getUserBooks`);
+    xhrUserBook.setRequestHeader("Authorization", "Bearer "+getCookie('token'));
     xhrUserBook.send(null);
 
     xhrUserBook.onload = function () {

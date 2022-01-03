@@ -4,7 +4,8 @@ for (var i = 1; i < 6; i++) {
 }
 
 var xhrUserStars = new XMLHttpRequest();
-xhrUserStars.open('GET', `/getUserStars/${getCookie('uno')}/${getCookie('bno')}`)
+xhrUserStars.open('GET', `/getUserStars/${getCookie('bno')}`);
+xhrUserStars.setRequestHeader("Authorization","Bearer "+getCookie('token'));
 xhrUserStars.send(null);
 
 xhrUserStars.onload = function () {
@@ -43,8 +44,16 @@ function markStarsUser(lim, sendFlag) {
     }
     if (sendFlag) {
         dataToSend = { starsno: lim, bno: getCookie('bno'), uno: getCookie('uno') };
-        $.post("http://127.0.0.1:3000/setStars", dataToSend, function () {
+        /*$.post("http://127.0.0.1:3000/setStars", dataToSend, function () {
 
+        });*/
+        $.ajax({
+            type:"POST",
+            url: "http://127.0.0.1:3000/setStars",
+            beforeSend:function setHeaderAuth(xhr) {
+                xhr.setRequestHeader("Authorization","Bearer "+getCookie('token'));
+            },
+            data: dataToSend,
         });
     }
 }

@@ -1,5 +1,6 @@
 var xhrUser = new XMLHttpRequest();
-xhrUser.open('GET', `/getUserData/${getCookie('uno')}`)
+xhrUser.open('GET', `/getUserData/`)
+xhrUser.setRequestHeader("Authorization", "Bearer "+getCookie('token'));
 xhrUser.send(null);
 
 xhrUser.onload = function () {

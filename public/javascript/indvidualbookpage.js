@@ -16,8 +16,12 @@ xhrBook.onload = function () {
     document.getElementById("bookDesc").innerHTML = bookdata.bdesc;
 }
 
+function setHeaderAuth(xhr) {
+    xhr.setRequestHeader("Authorization","Bearer "+getCookie('token'));
+}
+
 function checkIssue() {
-    $.post(`http://127.0.0.1:3000/checkIssue/${getCookie('uno')}/${getCookie('bno')}`, function (issueData) {
+    /*$.post(`http://127.0.0.1:3000/checkIssue/${getCookie('uno')}/${getCookie('bno')}`, function (issueData) {
         var isData = JSON.parse(issueData);
         console.log(isData);
         if (isData.check === 'yes') {
@@ -30,7 +34,27 @@ function checkIssue() {
             isBtn.onclick = onIssue;
             isBtn.id= "issueBtn";
         }
-    }, "json");
+    }, "json");*/
+
+    $.ajax({
+        type:'POST',
+        url:`http://127.0.0.1:3000/checkIssue/${getCookie('bno')}`,
+        beforeSend: setHeaderAuth,
+        success: function (issueData) {
+            var isData = JSON.parse(issueData);
+            console.log(isData);
+            if (isData.check === 'yes') {
+                isBtn.innerHTML = "RETURN";
+                isBtn.onclick = onReturn;
+                isBtn.id= "returnBtn";
+            }
+            else {
+                isBtn.innerHTML = "ISSUE";
+                isBtn.onclick = onIssue;
+                isBtn.id= "issueBtn";
+            }
+        }
+    });
 }
 
 function getCookie(ckey) {
@@ -49,17 +73,38 @@ function getCookie(ckey) {
 }
 
 function onIssue() {
-    console.log(`http://127.0.0.1:3000/issueBook/${getCookie('uno')}/${getCookie('bno')}`);
+    /*console.log(`http://127.0.0.1:3000/issueBook/${getCookie('uno')}/${getCookie('bno')}`);
     $.post(`http://127.0.0.1:3000/issueBook/${getCookie('uno')}/${getCookie('bno')}`, function () {
         console.log("post returned"+checkIssue());
         //checkissue returning undefined
         checkIssue();
+    });*/
+
+    $.ajax({
+        type:'POST',
+        url:`http://127.0.0.1:3000/issueBook/${getCookie('bno')}`,
+        beforeSend: setHeaderAuth,
+        success: function () {
+            //console.log("post returned"+checkIssue());
+            checkIssue();
+        }
     });
+
 }
 
 function onReturn() {
-    $.post(`http://127.0.0.1:3000/returnBook/${getCookie('uno')}/${getCookie('bno')}`, function () {
+    /*$.post(`http://127.0.0.1:3000/returnBook/${getCookie('uno')}/${getCookie('bno')}`, function () {
         checkIssue();
+    });*/
+
+    $.ajax({
+        type:'POST',
+        url:`http://127.0.0.1:3000/returnBook/${getCookie('bno')}`,
+        beforeSend: setHeaderAuth,
+        success: function () {
+            //console.log("post returned"+checkIssue());
+            checkIssue();
+        }
     });
 }
 
