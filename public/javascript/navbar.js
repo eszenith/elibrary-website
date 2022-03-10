@@ -45,13 +45,15 @@ function checkLogin() {
         var dataSplit = data.split('=');
         obj[dataSplit[0]] = decodeURIComponent(dataSplit[1]);
     }
-    if ('login' in obj) {
-        if (obj['login'] === 'yes') {
+    
+    if ('token' in obj) {
+        /*if (obj['login'] === 'yes') {
             loggedInNavbar();
         }
         else {
             generalNavbar();
-        }
+        }*/
+        loggedInNavbar();
     }
     else {
         generalNavbar();

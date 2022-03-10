@@ -1,6 +1,6 @@
 const playBtns = document.querySelectorAll(".playBtn");
 
-if (getCookie("login") === 'yes') {
+if (getCookie("token")) {
     for(let i =0;i<playBtns.length;i++) {
         playBtns[i].addEventListener('click', changeImg);
     }

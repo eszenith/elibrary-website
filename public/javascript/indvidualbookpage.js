@@ -3,7 +3,7 @@ xhrBook.open('GET', `/getBookData/${getCookie('bno')}`)
 xhrBook.send(null);
 
 var isBtn = document.getElementById("issueBtn");
-if(getCookie("login") === 'yes') {
+if(getCookie("token")) {
     checkIssue();
 }
 

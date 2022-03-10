@@ -66,7 +66,7 @@ router.post('/login', function (req, res, next) {
             bcrypt.compare(req.body.userpass,userObj.upass, function(err, result) {
                 if(result)
                 {
-                    res.cookie("login", "yes")
+                    //res.cookie("login", "yes")
                     //res.cookie("uno", `${userObj['uno']}`);
                     var tkn = genAccessToken({'uno' : userObj['uno']});
                     console.log(tkn);
@@ -82,7 +82,7 @@ router.post('/login', function (req, res, next) {
 });
 
 router.get("/logout", function (req, res, next) {
-    res.clearCookie("login");
+    //res.clearCookie("login");
     res.clearCookie('token');
     /*res.cookie("uno");*/
     res.redirect("/");
