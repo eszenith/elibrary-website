@@ -4,7 +4,7 @@ for (var i = 1; i < 6; i++) {
 }
 
 var xhrStars = new XMLHttpRequest();
-xhrStars.open('GET', `/getBookStars/${getCookie('bno')}`)
+xhrStars.open('GET', `star/getBookStars/${getCookie('bno')}`)
 xhrStars.send(null);
 
 function markStars(lim) {

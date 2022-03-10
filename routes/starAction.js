@@ -14,6 +14,14 @@ router.use(function(req,res,next) {
     next();
 });
 
+router.get("/getBookStars/:bookid", function (req, res, next) {
+    var qry = `select stars,noOfUser from books where bno=?`;
+    console.log(qry);
+    connection.query(qry,[req.params.bookid],  function (err, result) {
+        res.json(JSON.stringify(result[0]));
+    });
+});
+
 //auth
 router.get("/getUserStars/:bookid", jwtAuthenticate ,function (req, res, next) {
     var qry = `select * from stars where uno = ? and bno = ?`;

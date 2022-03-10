@@ -2,6 +2,7 @@ var express = require('express');
 /*const con = require('../dbfunctions');*/
 var connection = require('../dbfunctions');
 var jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const jwtAuthenticate = require('../jwtAuthenticate');
 //const { json } = require('express');
 
@@ -30,14 +31,17 @@ router.get('/', function (req, res, next) {
 
 router.post('/signup', function (req, res, next) {
     var qry = `insert into users(uname,upass,uage,umail) values(?,?,?,?)`;
-    connection.query(qry, [req.body.username, req.body.upass, req.body.uage, req.body.umail], function (err, result) {
-        if (err) {
-            res.cookie('register', 'no');
-            res.redirect('/signup.html')
-        }
-        //console.log('successfully registered');
-        res.cookie('register', 'yes')
-        res.redirect('/signup.html')
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(req.body.upass, salt, function(err, hash) {
+            connection.query(qry, [req.body.username, hash, req.body.uage, req.body.umail], function (err, result) {
+                if (err) {
+                    res.cookie('register', 'no');
+                    res.redirect('/signup.html')
+                }
+                res.cookie('register', 'yes')
+                res.redirect('/signup.html')
+            });
+        });
     });
 });
 
@@ -58,18 +62,22 @@ router.post('/login', function (req, res, next) {
         console.log(userObj);
         if (!userObj)
             res.redirect('/index.html');
-        if (userObj['upass'] === req.body.userpass) {
-            res.cookie("login", "yes")
-            //res.cookie("uno", `${userObj['uno']}`);
-            var tkn = genAccessToken({'uno' : userObj['uno']});
-            console.log(tkn);
-            res.json(tkn);
-            
+        else{
+            bcrypt.compare(req.body.userpass,userObj.upass, function(err, result) {
+                if(result)
+                {
+                    res.cookie("login", "yes")
+                    //res.cookie("uno", `${userObj['uno']}`);
+                    var tkn = genAccessToken({'uno' : userObj['uno']});
+                    console.log(tkn);
+                    res.json(tkn);
+                }
+                else
+                {
+                    res.redirect("/");
+                }
+            });
         }
-        else {
-            res.redirect("/");
-        }
-        
     });
 });
 
@@ -87,7 +95,7 @@ router.get('/getBooks', function (req, res, next) {
         res.json(jsonBookData);
     });
 });
-
+/*
 //auth
 router.get('/getUserBooks/', jwtAuthenticate , function (req, res, next) {
     var qry = `select * from issue where uno = ?`;
@@ -115,7 +123,7 @@ router.get('/getUserBooks/', jwtAuthenticate , function (req, res, next) {
             res.json(jsonBookData);
         }
     });
-});
+});*/
 
 //auth
 router.get('/getUserData', jwtAuthenticate ,function (req, res, next) {
@@ -136,14 +144,14 @@ router.get("/getBookData/:bookid", function (req, res, next) {
         res.json(JSON.stringify(result[0]));
     });
 });
-
+/*
 router.get("/getBookStars/:bookid", function (req, res, next) {
     var qry = `select stars,noOfUser from books where bno=?`;
     console.log(qry);
     connection.query(qry,[req.params.bookid],  function (err, result) {
         res.json(JSON.stringify(result[0]));
     });
-});
+});*/
 
 
 router.get("/getSearchData/:sQry", function (req, res, next) {
@@ -168,6 +176,5 @@ router.get("/userbookpage/:bookid", function (req, res, next) {
     res.cookie("bno", req.params.bookid);
     res.redirect("/userbookpage.html");
 });
-
 
 module.exports = router;
