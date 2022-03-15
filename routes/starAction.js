@@ -14,7 +14,7 @@ router.use(function(req,res,next) {
     next();
 });
 
-router.get("/getBookStars/:bookid", function (req, res, next) {
+router.get("/book/:bookid", function (req, res, next) {
     var qry = `select stars,noOfUser from books where bno=?`;
     console.log(qry);
     connection.query(qry,[req.params.bookid],  function (err, result) {
@@ -23,7 +23,7 @@ router.get("/getBookStars/:bookid", function (req, res, next) {
 });
 
 //auth
-router.get("/getUserStars/:bookid", jwtAuthenticate ,function (req, res, next) {
+router.get("/user/:bookid", jwtAuthenticate ,function (req, res, next) {
     var qry = `select * from stars where uno = ? and bno = ?`;
     console.log(qry);
     connection.query(qry,[req.tokenData.uno,req.params.bookid] , function (err, result) {
@@ -52,7 +52,7 @@ function updateBookStarAvg(bno, starsno) {
 }
 
 //auth
-router.post("/setStars", jwtAuthenticate ,function (req, res, next) {
+router.post("/userRating", jwtAuthenticate ,function (req, res, next) {
     var qry = `select * from stars where uno = ? and bno = ?`;
     console.log(qry);
     connection.query(qry, [req.tokenData.uno , req.body.bno], function (err, result) {

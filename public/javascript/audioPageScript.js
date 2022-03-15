@@ -5,6 +5,7 @@ if (getCookie("token")) {
         playBtns[i].addEventListener('click', changeImg);
     }
 }
+
 else {
     for(let i =0;i<playBtns.length;i++) {
         playBtns[i].addEventListener('click', giveMessageNeg);

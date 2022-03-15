@@ -24,7 +24,7 @@ $(function () {
         console.log(books);
         for (var book of books) {
             var $bookEl = $(`<div class="book">
-            <a href="userbookpage/${book.bno}"><img class="book-img" src="images/bk1.png"></a>
+            <a href="books/user/${book.bno}"><img class="book-img" src="images/bk1.png"></a>
             <p class="author">${book.bname}</p></div>`);
             $bookCont.append($bookEl);
 
@@ -47,7 +47,7 @@ $(function () {
     }
 
     var xhrUserBook = new XMLHttpRequest();
-    xhrUserBook.open('GET', `bookUserAct/getUserBooks`);
+    xhrUserBook.open('GET', `/books/user/issued`);
     xhrUserBook.setRequestHeader("Authorization", "Bearer "+getCookie('token'));
     xhrUserBook.send(null);
 

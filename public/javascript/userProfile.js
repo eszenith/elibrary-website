@@ -1,5 +1,5 @@
 var xhrUser = new XMLHttpRequest();
-xhrUser.open('GET', `/getUserData/`)
+xhrUser.open('GET', `/userData/`)
 xhrUser.setRequestHeader("Authorization", "Bearer "+getCookie('token'));
 xhrUser.send(null);
 

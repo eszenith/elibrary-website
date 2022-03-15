@@ -19,7 +19,7 @@ router.use(function(req,res,next) {
 })
 
 //auth
-router.get('/getUserBooks/', jwtAuthenticate , function (req, res, next) {
+router.get('/user/issued', jwtAuthenticate , function (req, res, next) {
     var qry = `select * from issue where uno = ?`;
     //console.log("in user books" + qry);
     var qry2 = `select bno,bname from books where `;
@@ -47,8 +47,29 @@ router.get('/getUserBooks/', jwtAuthenticate , function (req, res, next) {
     });
 });
 
+router.get("/search/:sQry", function (req, res, next) {
+    var qry = `select bno,bname from books where bname like ?`;
+    console.log(qry);
+    connection.query(qry,['%'+req.params.sQry+'%'], function (err, result) {
+        if (err) throw err;
+        //console.log(result);
+        res.json(JSON.stringify(result));
+    });
+});
+
+router.get('/all', function (req, res, next) {
+    var qry = `select bno,bname from books`;
+    connection.query(qry, function (err, result) {
+        var jsonBookData = JSON.stringify(result);
+        console.log("checking data : "+jsonBookData);
+        res.json(jsonBookData);
+    });
+});
+
+
+
 //auth
-router.post("/issueBook/:bookid", jwtAuthenticate ,function (req, res, next) {
+router.post("/issue/:bookid", jwtAuthenticate ,function (req, res, next) {
     //console.log("in issue books" + req.params.userid + " book id " + req.params.bookid);
     var qry = `INSERT INTO issue values(?,?)`;
     //console.log(qry);
@@ -59,7 +80,7 @@ router.post("/issueBook/:bookid", jwtAuthenticate ,function (req, res, next) {
 });
 
 //auth
-router.post("/returnBook/:bookid", jwtAuthenticate ,function (req, res, next) {
+router.post("/return/:bookid", jwtAuthenticate ,function (req, res, next) {
     //console.log("in return books");
     var qry = `delete from issue where uno=? and bno=?`;
     //console.log(qry);
@@ -68,6 +89,8 @@ router.post("/returnBook/:bookid", jwtAuthenticate ,function (req, res, next) {
         res.end();
     });
 });
+
+
 
 //auth
 router.post("/checkIssue/:bookid",jwtAuthenticate , function (req, res, next) {
@@ -86,6 +109,22 @@ router.post("/checkIssue/:bookid",jwtAuthenticate , function (req, res, next) {
         }
     });
 })
+
+router.get("/user/:bookid", function (req, res, next) {
+    res.clearCookie("bno");
+    res.cookie("bno", req.params.bookid);
+    res.redirect("/userbookpage.html");
+});
+
+router.get("/:bookid", function (req, res, next) {
+    var qry = `select * from books where bno=?`;
+    console.log("getting book , " + qry);
+    connection.query(qry,[req.params.bookid], function (err, result) {
+        console.log(result);
+        res.json(JSON.stringify(result[0]));
+    });
+});
+
 
 
 module.exports = router;

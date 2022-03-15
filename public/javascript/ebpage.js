@@ -1,6 +1,5 @@
 $(function () {
     function fillPage(books) {
-
         var $bookCont = $(".books-cont");
         $(".book").remove();
         $(".nobook-cont").remove();
@@ -28,12 +27,12 @@ $(function () {
             $bookCont.append("<div class='nobook-cont'><p class='srchText'>No books found</p></div>");
         }
     }
-
+    
     $('.searchBtn').on('click', function () {
         var xhr2 = new XMLHttpRequest();
         console.log("abcd");
         console.log($(".search > input").val());
-        xhr2.open('GET', `/getSearchData/${$(".search > input").val()}`)
+        xhr2.open('GET', `/books/search/${$(".search > input").val()}`)
         xhr2.send(null);
 
         xhr2.onload = function () {
@@ -45,13 +44,13 @@ $(function () {
     });
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/getBooks');
+    xhr.open('GET', '/books/all');
     xhr.send(null);
 
     xhr.onload = function () {
         //the string recieved from server is escaped with / first json parse only creates a string
+        console.log("checking : "+xhr.responseText);
         var allbooks = JSON.parse(JSON.parse(xhr.responseText));
         fillPage(allbooks);
     }
-
 });
