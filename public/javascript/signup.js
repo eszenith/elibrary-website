@@ -30,8 +30,6 @@ $(function () {
 
     function sendData(dataToSend) {
         //send data with ajax and jquery
-        console.log("sent data");
-        console.log(dataToSend);
         $.post("http://127.0.0.1:3000/signup", dataToSend, function () {
             checkAccount();
         });

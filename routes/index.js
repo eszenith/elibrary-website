@@ -12,16 +12,6 @@ function genAccessToken(data) {
 
 var router = express.Router();
 
-router.use(function(req,res,next) {
-    console.log("request");
-    next();
-});
-
-router.use(function(req,res,next) {
-    console.log("in index router");
-    next();
-});
-
 //this files contains all the route handlers on the website
 
 router.get('/', function (req, res, next) {
@@ -50,16 +40,9 @@ router.post('/login', function (req, res, next) {
     //var qry = `select * from users where uname='${req.body.username}'`;
     var qry = `select * from users where uname=?`;
     var userObj;
-    console.log(qry);
-    console.log("request : ");
-    console.log(req.body);
-    console.log(req.headers);
     var sqlQry = connection.query(qry, [req.body.username], function (err, result) {
         if (err) throw err;
-        console.log(result);
         userObj = result[0];
-        console.log(sqlQry.sql);
-        console.log(userObj);
         if (!userObj)
             res.redirect('/index.html');
         else{
@@ -69,7 +52,6 @@ router.post('/login', function (req, res, next) {
                     //res.cookie("login", "yes")
                     //res.cookie("uno", `${userObj['uno']}`);
                     var tkn = genAccessToken({'uno' : userObj['uno']});
-                    console.log(tkn);
                     res.json(tkn);
                 }
                 else
@@ -92,7 +74,6 @@ router.get("/logout", function (req, res, next) {
 
 //auth
 router.get('/userData', jwtAuthenticate ,function (req, res, next) {
-    console.log(req.tokenData.uno);
     var qry = `select * from users where uno=?`;
     connection.query(qry,[req.tokenData.uno], function (err, result) {
         res.json(JSON.stringify(result[0]));

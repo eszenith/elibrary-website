@@ -30,13 +30,11 @@ function getCookie(ckey) {
 
 function markStarsUser(lim, sendFlag) {
     let i = 1;
-    console.log("in mark stars"+lim);
     if(lim > 5) {
         lim = 5;
     }
 
     for (i = 1; i <= lim; i++) {
-        console.log("selected")
         stars[i-1].querySelector(".star-img").src = "images/cstar.png"
     }
     for (; i <= 5; i++) {
@@ -44,9 +42,6 @@ function markStarsUser(lim, sendFlag) {
     }
     if (sendFlag) {
         dataToSend = { starsno: lim, bno: getCookie('bno'), uno: getCookie('uno') };
-        /*$.post("http://127.0.0.1:3000/setStars", dataToSend, function () {
-
-        });*/
         $.ajax({
             type:"POST",
             url: "http://127.0.0.1:3000/star/userRating",

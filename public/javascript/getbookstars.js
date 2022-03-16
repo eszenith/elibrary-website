@@ -24,7 +24,6 @@ function markStars(lim) {
 
 xhrStars.onload = function () {
     var bookdata = JSON.parse(JSON.parse(xhrStars.responseText));
-    console.log(bookdata)
     document.getElementById("ratings").innerHTML = `${bookdata.noOfUser} Ratings`;
     markStars(bookdata.stars);
 }

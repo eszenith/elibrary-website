@@ -4,9 +4,7 @@ xhrUser.setRequestHeader("Authorization", "Bearer "+getCookie('token'));
 xhrUser.send(null);
 
 xhrUser.onload = function () {
-    console.log(xhrUser.responseText);
     var userData = JSON.parse(JSON.parse(xhrUser.responseText));
-    console.log(userData);
     fillUserData(userData);
 }
 
@@ -23,7 +21,6 @@ function getCookie(ckey) {
         var dataSplit = data.split('=');
         obj[dataSplit[0]] = decodeURIComponent(dataSplit[1]);
     }
-    console.log(JSON.stringify(obj));
     if (ckey in obj) {
         return obj[ckey];
     }

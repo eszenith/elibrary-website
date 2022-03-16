@@ -47,12 +47,6 @@ function checkLogin() {
     }
     
     if ('token' in obj) {
-        /*if (obj['login'] === 'yes') {
-            loggedInNavbar();
-        }
-        else {
-            generalNavbar();
-        }*/
         loggedInNavbar();
     }
     else {

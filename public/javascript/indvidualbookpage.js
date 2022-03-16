@@ -8,8 +8,6 @@ if(getCookie("token")) {
 }
 
 xhrBook.onload = function () {
-    console.log("in onload");
-    console.log(xhrBook.responseText);
     var bookdata = JSON.parse(JSON.parse(xhrBook.responseText));
     document.getElementById("bookTitle").innerHTML = bookdata.bname;
     document.getElementById("bookAuthor").innerHTML = `By ${bookdata.author}`;
@@ -85,7 +83,6 @@ function onIssue() {
         url:`http://127.0.0.1:3000/books/issue/${getCookie('bno')}`,
         beforeSend: setHeaderAuth,
         success: function () {
-            //console.log("post returned"+checkIssue());
             checkIssue();
         }
     });
@@ -102,7 +99,6 @@ function onReturn() {
         url:`http://127.0.0.1:3000/books/return/${getCookie('bno')}`,
         beforeSend: setHeaderAuth,
         success: function () {
-            //console.log("post returned"+checkIssue());
             checkIssue();
         }
     });

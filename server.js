@@ -1,8 +1,8 @@
-//express used for handling different http methods like get, post on different website routes
+
 const express = require('express');
 var path = require('path');
+
 //cookie parser is used for managing cookies in http request and response
-//cookies are use maintaining user sessions and sending necessary data
 var cookieParser = require('cookie-parser');
 const app = express()
 

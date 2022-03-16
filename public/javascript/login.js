@@ -7,7 +7,7 @@ $(function () {
             var dataSplit = data.split('=');
             obj[dataSplit[0]] = decodeURIComponent(dataSplit[1]);
         }
-        console.log(JSON.stringify(obj));
+    
         if (ckey in obj) {
             return obj[ckey];
         }
@@ -18,22 +18,11 @@ $(function () {
 
     function sendData(dataToSend) {
         //send data with ajax and jquery
-        console.log("sent data");
-        console.log(dataToSend);/*
-        $.post("http://127.0.0.1:3000/login",dataToSend ,function (dataRec) {
-            console.log(dataRec);
-            //done till receiving jwt from server now need to add it to authentication header while making secured
-            // request from server also need to add middleware for jwt authentication in backend and remove cookies
-            document.cookie = `token:${dataRec}`;
-        });*/
         $.ajax({
             type:"POST",
             url: "http://127.0.0.1:3000/login",
             data: dataToSend,
             success: function (dataRec) {
-                console.log("received : "+dataRec);
-                //done till receiving jwt from server now need to add it to authentication header while making secured
-                // request from server also need to add middleware for jwt authentication in backend and remove cookies
                 document.cookie = `token=${dataRec}`;
                 window.open('/','_self');
             }
